@@ -28,4 +28,7 @@ Content-Type: application/json
     "genre": "Action RPG",
     "price": 9.99,
     "releaseDate": "2015-05-19"
-  }
+}
+###
+
+DELETE http://localhost:5291/games/1
