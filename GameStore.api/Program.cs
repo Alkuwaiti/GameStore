@@ -4,6 +4,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
+const string GetGameEndpointName = "GetGame";
+
 List<GameDto> games = new()
 {
     new GameDto(1, "The Witcher 3: Wild Hunt", "Action RPG", 29.99m, new DateOnly(2015, 5, 19)),
@@ -16,5 +18,38 @@ List<GameDto> games = new()
 app.MapGet("games", () => games);
 
 app.MapGet("/", () => "Hello World!");
+
+app.MapGet("games/{id}", (int id) => games.Find(game => game.Id == id)).WithName(GetGameEndpointName);
+
+// POST
+app.MapPost("games", (CreateGameDto newGame) =>
+{
+    GameDto game = new GameDto(
+        games.Count + 1,
+        newGame.Name,
+        newGame.Genre,
+        newGame.Price,
+        newGame.ReleaseDate
+    );
+    games.Add(game);
+
+    return Results.CreatedAtRoute(GetGameEndpointName, new { id = game.Id }, game);
+});
+
+app.MapPut("games/{id}", (int id, UpdateGameDto updatedGame) =>
+{
+    var index = games.FindIndex(game => game.Id == id);
+
+    games[index] = new GameDto(id, updatedGame.Name, updatedGame.Genre, updatedGame.Price, updatedGame.ReleaseDate);
+
+    return Results.NoContent();
+});
+
+app.MapDelete("games/{id}", (int id) =>
+{
+    games.RemoveAll(game => game.Id == id);
+
+    return Results.NoContent();
+});
 
 app.Run();

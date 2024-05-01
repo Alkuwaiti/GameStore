@@ -1,1 +1,31 @@
 GET http://localhost:5291/games
+
+###
+
+GET http://localhost:5291/games/1
+
+
+###
+
+POST http://localhost:5291/games
+Content-Type: application/json
+
+{
+    "name": "Cyberpunk",
+    "genre": "The future",
+    "price": 19.99,
+    "releaseDate": "2020-12-12"
+}
+
+### 
+
+PUT http://localhost:5291/games/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "The Witcher 2: Wild Hunt",
+    "genre": "Action RPG",
+    "price": 9.99,
+    "releaseDate": "2015-05-19"
+  }
