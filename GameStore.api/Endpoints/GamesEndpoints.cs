@@ -16,7 +16,7 @@ public static class GamesEndpoints
     {
         const string GetGameEndpointName = "GetGame";
 
-        var group = app.MapGroup("games");
+        var group = app.MapGroup("games").WithParameterValidation();
 
         group.MapGet("/", () => games);
 
